@@ -20,6 +20,7 @@ ENDIF()
 file(GLOB_RECURSE SOURCE_LIST "*.cpp")
 add_library(${PROJECT_NAME} ${SOURCE_LIST})
 
+target_include_directories(${PROJECT_NAME} PUBLIC ${GMP_INCLUDE_DIR} ${GMPXX_INCLUDE_DIR})
 ### Link with dependencies
 target_link_libraries(${PROJECT_NAME}
     triangle
