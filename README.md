@@ -1,3 +1,11 @@
+# Bézier Guarding: Precise Higher-Order Meshing of Curved 2D Domains
+
+Original code + cmake changes to build dependencies in place
+
+## original README.md
+
+------------------------------------------------
+
 ### OVERVIEW
 
 This is an example implementation of the Bézier Guarding algorithm described in the article:
