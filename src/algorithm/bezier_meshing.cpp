@@ -2,6 +2,7 @@
 
 #include <gmpxx.h>
 #include <iostream>
+#include <sstream>
 #include <set>
 
 #include "algorithm/constants.hpp"
@@ -80,7 +81,7 @@ void save_log_file(int t, std::string f_name, int t_count=-1)
     fclose(error_file);
 }
 
-bool bezierMeshing(std::string filename, bool addBbox, bool epsOutput, bool gmshOutput, bool optimizeMesh, int exp_type)
+bool bezierMeshing(std::string filename, bool addBbox, bool epsOutput, bool gmshOutput, bool optimizeMesh, int exp_type, int subdivide)
 {
 #ifdef ALL_EXACT
     Logger::lout(Logger::INFO) << "Running in EXACT mode." << endl;
@@ -391,6 +392,31 @@ bool bezierMeshing(std::string filename, bool addBbox, bool epsOutput, bool gmsh
     {
         Logger::lout(Logger::INFO) << "Writing final output to .msh-file..." << endl;
         MSHWriter<Scalar>().write(filenameBase + ".msh", mesh);
+    }
+
+    for(int i = 0; i < subdivide; i++)
+    {
+      BezierMesh<Scalar> copy;
+      bzmsh::subdivide(mesh, copy);
+      printf("WTF!??????! mesh.degree = %d\n", mesh.degree);
+      copy.degree = mesh.degree;
+      printf("WTF!??????! copy.degree = %d\n", copy.degree);
+      if (gmshOutput)
+      {
+          Logger::lout(Logger::INFO) << "Writing subdivision to .msh-file..." << endl;
+          std::ostringstream ss;
+          ss << filenameBase << "-subdivide-"<<i<<".msh";
+          MSHWriter<Scalar>().write(ss.str(), copy);
+      }
+      if (epsOutput)
+      {
+          Logger::lout(Logger::INFO) << "Writing subdivision visualization output to .eps-file..." << endl;
+          std::ostringstream ss;
+          ss << filenameBase << "-subdivide-"<<i<<".eps";
+          EPSWriter<Scalar>().write(ss.str(), copy);
+      }
+      // sus
+      mesh = copy;
     }
 
     if(optimizeMesh)

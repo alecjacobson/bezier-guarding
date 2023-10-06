@@ -426,9 +426,9 @@ void BezierMesh<T>::gradient_step(int v_id)
    }
    if(itr<=max_itr)
    {
-       //printf("lambda(%d) = %0.10f\n", itr, m_lambda);
-       //double percentage = 100.0*(old_energy-new_energy) / old_energy;
-       //printf("E reduction = %0.10f %%  (%f/%f)\n", percentage, new_energy, old_energy);
+       printf("lambda(%d) = %0.10f\n", itr, m_lambda);
+       double percentage = 100.0*(old_energy-new_energy) / old_energy;
+       printf("E reduction = %0.10f %%  (%f/%f)\n", percentage, new_energy, old_energy);
 
        allPts = ctrPt_temp;
        old_energy = new_energy;

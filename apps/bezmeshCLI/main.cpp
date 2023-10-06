@@ -32,6 +32,7 @@ int main(int argc, char** argv)
     bool epsOutput = false;
     bool gmshOutput = false;
     bool optimizeMesh = false;
+    int subdivide = 0;
     int exp_type = -1;
     if (argc >= 3)
     {
@@ -43,6 +44,10 @@ int main(int argc, char** argv)
         if (flagstring.find('e') != flagstring.npos)
         {
             epsOutput = true;
+        }
+        if (flagstring.find('s') != flagstring.npos)
+        {
+            subdivide = 1;
         }
         if (flagstring.find('g') != flagstring.npos)
         {
@@ -61,5 +66,5 @@ int main(int argc, char** argv)
         }
     }
     
-    return bezierMeshing(filename, addBbox, epsOutput, gmshOutput, optimizeMesh, exp_type);
+    return bezierMeshing(filename, addBbox, epsOutput, gmshOutput, optimizeMesh, exp_type, subdivide);
 }
